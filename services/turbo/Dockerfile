@@ -1,4 +1,4 @@
-FROM node:alpine as downloader
+FROM node:alpine AS downloader
 ARG TURBO_VERSION=main
 
 RUN apk add git

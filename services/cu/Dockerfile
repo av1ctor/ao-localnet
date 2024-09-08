@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:alpine AS builder
 ARG CU_VERSION=main
 
 RUN apk add git

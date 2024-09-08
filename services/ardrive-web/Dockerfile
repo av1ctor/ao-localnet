@@ -1,4 +1,4 @@
-FROM ubuntu as builder
+FROM ubuntu AS builder
 ARG ARDRIVE_WEB_VERSION=v2.37.2
 ARG FLUTTER_VERSION=3.19.2
 

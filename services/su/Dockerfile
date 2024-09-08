@@ -1,4 +1,4 @@
-FROM node:alpine as downloader
+FROM node:alpine AS downloader
 ARG SU_VERSION=main
 
 RUN apk add git
@@ -10,6 +10,13 @@ FROM rust AS builder
 WORKDIR /build
 COPY --from=downloader /download/ao/servers/su .
 
+RUN apt update && apt install -y \
+    llvm-dev \
+    libclang-dev \
+    clang \
+    librocksdb-dev
+
+RUN cargo update
 RUN cargo build --release
 
 FROM rust:slim
