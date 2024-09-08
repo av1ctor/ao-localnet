@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 
 import Arweave from 'arweave'
-import { DataItem } from 'arbundles'
+import { ArweaveSigner, bundleAndSignData, DataItem } from 'arbundles'
 import debug from 'debug'
 import express from 'express'
 
@@ -42,8 +42,9 @@ const handler = async (req, res) => {
   logger('parsed ANS-104 data item from request body')
 
   txLogger('building tx...')
+  const bundle = await bundleAndSignData([dataItem], new ArweaveSigner(wallet));
   const tx = await arweave.createTransaction({
-    data: dataItem.rawData,
+    data: bundle.getRaw(),
   })
   txLogger('adding tags...')
   tx.addTag('App-Name',       'ao-localnet bundler')
@@ -52,7 +53,7 @@ const handler = async (req, res) => {
   tx.addTag('Bundle-Version', '2.0.0'              )
   txLogger('signing...')
   await arweave.transactions.sign(tx, wallet)
-  txLogger('signed', tx)
+  //txLogger('signed', tx)
 
   logger('posting tx', tx.id, 'to arweave...')
   const { status, statusText, data } = await arweave.transactions.post(tx)
