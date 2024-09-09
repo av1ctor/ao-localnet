@@ -21,4 +21,3 @@ curl -q http://localhost:4000/mint/$USER_WALLET_ADDRESS/1000000000000000
 echo
 
 ./seed/publish-scheduler-location.mjs
-./seed/mine.mjs
